@@ -1,0 +1,29 @@
+<ion-menu [content]="content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Rsu Smart Train</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+
+    <ion-list>
+      <ion-list-header>
+          <img src="assets/imgs/logo.png" class="logo-size" alt="logo">
+      </ion-list-header>
+      <button menuClose ion-item *ngFor="let p of pages" (click)="openPageSideMenu(p)">
+        {{p.title}}
+      </button>
+      <button menuClose ion-item (click)="openContactPage()">Contact us
+      </button>
+      <ion-footer>
+        <button menuClose ion-item (click)="openPage()" text-center > Login </button>
+      </ion-footer>
+    </ion-list>
+
+  </ion-content>
+
+</ion-menu>
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
