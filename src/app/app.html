@@ -8,22 +8,45 @@
   <ion-content>
 
     <ion-list>
-      <ion-list-header>
-          <img src="assets/imgs/logo.png" class="logo-size" alt="logo">
-      </ion-list-header>
+      <!-- <ion-list-header *ngIf="profile">
+        <p>{{ profile.user_name }}
+          <img [src]="profile.picture" class="logo-size" alt="logo">
+          <p>Email: {{ profile.email }}</p>
+          <p>Name: {{ profile.first_name }} {{ profile.last_name }} </p>
+      </ion-list-header> -->
+      <ion-list *ngIf="profile">
+        <ion-item>
+          <ion-grid>
+            <ion-row justify-content-center>
+              <ion-col col-5>
+                <ion-avatar>
+                  <img style="height: 80px; width: 80px;" [src]="profile.picture">
+                </ion-avatar>
+              </ion-col>
+            </ion-row>
+            <ion-row justify-content-center>
+              <ion-col col-8 style="text-align: center;">
+                <!-- <p>Email: {{ profile.email }}</p> -->
+                <h2 style="margin-top: 5px;">{{profile.user_name}}</h2>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPageSideMenu(p)">
         {{p.title}}
       </button>
       <button menuClose ion-item (click)="openContactPage()">Contact us
       </button>
       <ion-footer>
-        <button menuClose ion-item (click)="openPage()" text-center > Login </button>
+        <button menuClose ion-item (click)="openPage()" text-center> Login </button>
       </ion-footer>
     </ion-list>
 
   </ion-content>
 
 </ion-menu>
+
 
 <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

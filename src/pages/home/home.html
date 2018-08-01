@@ -1,22 +1,86 @@
-
 <ion-header>
+
   <ion-navbar>
 
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-title>Page One</ion-title>
+    <ion-title> RsuSmart Train</ion-title>
 
     <ion-buttons end>
-        <button ion-button (click)="addMarker()"><ion-icon name="add"></ion-icon>Add Marker</button>
-      </ion-buttons>
+      <button ion-button (click)="addMarker()">
+        <ion-icon name="add"></ion-icon>Add Marker</button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
 
-  <div #map id="map">
+  <div #map id="map"></div>
 
-  </div>
+  <ion-footer>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-4>
+          <ion-card class="card-width-marginright" type="button" (click)="PushTrainPage()">
+            <div class="card-title" text-center>Train</div>
+            <div class="card-subtitle" text-center>Train</div>
+          </ion-card>
+        </ion-col>
+        <ion-col col-4>
+          <ion-card class="card-width-marginright" type="button" (click)="PushTrainPage()">
+            <div class="card-title">Location</div>
+            <div class="card-subtitle" text-center>Location</div>
+          </ion-card>
+        </ion-col>
+        <ion-col col-4>
+          <ion-card class="card-width-marginright" type="button" (click)="PushTrainPage()">
+            <div class="card-title">Weather</div>
+            <div class="card-subtitle" text-center>Weather</div>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-footer>
+
 </ion-content>
+
+<!--2<ion-card>
+  <div style="text-align: right;margin: 5px; font-size: 2.5rem;position: fixed;right: 26px;z-index: 1;">
+      <ion-icon name="close" item-end (click)="onClosePopup()"></ion-icon>
+  </div>
+  <ion-card-content class="cardCustom">
+    <ion-card-title>
+      <ion-item >
+      <ion-avatar item-start>
+        <img style="width: 50px; height: 50px;" src="https://firebasestorage.googleapis.com/v0/b/tram-rsu.appspot.com/o/imgs%2Favatar.png?alt=media&token=a4e22795-64e2-4770-96a4-11ec4a55d782">
+      </ion-avatar>
+      <h2>{{tramStopInfo?.properties.title}}</h2>
+      <p>{{tramStopInfo?.properties.description}}</p>
+    </ion-item>
+    </ion-card-title>
+    <hr >
+
+    <p *ngFor="let item of data$ | async" >
+      <ion-item>
+        <!-- <ion-avatar item-start>
+          <img src="https://firebasestorage.googleapis.com/v0/b/tram-rsu.appspot.com/o/imgs%2Favatar.png?alt=media&token=a4e22795-64e2-4770-96a4-11ec4a55d782">
+        </ion-avatar> //
+        <div item-start>
+          <h2>{{item.name}}</h2>
+          <p>
+            <span>{{item.distance}} m.</span>
+            <span>{{item.duration}} sec.</span>
+          </p>
+        </div>
+        <div item-end>
+          <a>แจ้งเตือน</a>
+        </div>
+
+      </ion-item>
+    </p>
+    <br>
+    <br><br>
+  </ion-card-content>
+</ion-card> -->
