@@ -11,4 +11,25 @@ page-home {
   .ion-scroll {
     height: 100px;
   }
+
+  .popup {
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    bottom: 6vh;
+  }
+
+  .center {
+    -webkit-justify-content: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cardCustom {
+    height: 220px;
+    max-height: 220px;
+    position: relative;
+    top: relative;
+    overflow-y: auto;
+  }
 }

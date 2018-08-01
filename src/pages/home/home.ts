@@ -16,9 +16,9 @@ export class HomePage {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
 
-  tab1root = TrainPage;
-  tab2root = LocationPage;
-  tab3root = WeatherPage;
+  tab1 = false;
+  tab2 = false;
+  tab3 = false;
 
   constructor(public navCtrl: NavController, public geolocation: Geolocation) {}
 
@@ -75,5 +75,24 @@ export class HomePage {
 
   PushTrainPage() {
     this.navCtrl.push(TrainPage);
+  }
+
+  star1() {
+    console.log('star 1');
+    this.tab1 = true;
+    this.tab2 = false;
+    this.tab3 = false;
+  }
+  star2() {
+    console.log('star 2');
+    this.tab1 = false;
+    this.tab2 = true;
+    this.tab3 = false;
+  }
+  star3() {
+    console.log('star 3');
+    this.tab1 = false;
+    this.tab2 = false;
+    this.tab3 = true;
   }
 }
