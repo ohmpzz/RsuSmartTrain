@@ -2,7 +2,7 @@ import { WeatherPage } from './../weather/weather';
 import { TrainPage } from './../train/train';
 
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { LocationPage } from '../location/location';
 
@@ -16,11 +16,17 @@ export class HomePage {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
 
-  tab1root = TrainPage;
-  tab2root = LocationPage;
-  tab3root = WeatherPage;
+  tab1 = false;
 
-  constructor(public navCtrl: NavController, public geolocation: Geolocation) {}
+  tab2 = false;
+
+  tab3 = false;
+
+  constructor(
+    public navCtrl: NavController,
+    public geolocation: Geolocation,
+    private modal: ModalController
+  ) {}
 
   ionViewDidLoad() {
     this.loadMap();
@@ -73,7 +79,36 @@ export class HomePage {
     });
   }
 
-  PushTrainPage() {
-    this.navCtrl.push(TrainPage);
+  openTrainTab() {
+    console.log('star 1');
+    if (this.tab1 == false) {
+      this.tab1 = true;
+    } else {
+      this.tab1 = false;
+    }
+    this.tab2 = false;
+    this.tab3 = false;
+  }
+
+  openLocationTab() {
+    console.log('star 2');
+    if (this.tab2 == false) {
+      this.tab2 = true;
+    } else {
+      this.tab2 = false;
+    }
+    this.tab1 = false;
+    this.tab3 = false;
+  }
+
+  openWeatherTab() {
+    console.log('star 3');
+    if (this.tab3 == false) {
+      this.tab3 = true;
+    } else {
+      this.tab3 = false;
+    }
+    this.tab2 = false;
+    this.tab1 = false;
   }
 }

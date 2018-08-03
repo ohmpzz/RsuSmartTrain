@@ -21,24 +21,10 @@ import { Facebook } from '@ionic-native/facebook';
 import { WeatherPage } from '../pages/weather/weather';
 
 @NgModule({
-  declarations: [
-    MyApp,
-    HomePage,
-    LoginPage,
-    TrainPage,
-    WeatherPage,
-    LocationPage,
-  ],
+  declarations: [MyApp, HomePage, LoginPage, WeatherPage, LocationPage],
   imports: [BrowserModule, IonicModule.forRoot(MyApp)],
   bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    HomePage,
-    LoginPage,
-    TrainPage,
-    WeatherPage,
-    LocationPage,
-  ],
+  entryComponents: [MyApp, HomePage, LoginPage, WeatherPage, LocationPage],
   providers: [
     StatusBar,
     SplashScreen,

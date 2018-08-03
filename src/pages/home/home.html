@@ -19,68 +19,125 @@
 
   <div #map id="map"></div>
 
-  <ion-footer>
-    <ion-grid>
-      <ion-row>
-        <ion-col col-4>
-          <ion-card class="card-width-marginright" type="button" (click)="PushTrainPage()">
-            <div class="card-title" text-center>Train</div>
-            <div class="card-subtitle" text-center>Train</div>
-          </ion-card>
-        </ion-col>
-        <ion-col col-4>
-          <ion-card class="card-width-marginright" type="button" (click)="PushTrainPage()">
-            <div class="card-title">Location</div>
-            <div class="card-subtitle" text-center>Location</div>
-          </ion-card>
-        </ion-col>
-        <ion-col col-4>
-          <ion-card class="card-width-marginright" type="button" (click)="PushTrainPage()">
-            <div class="card-title">Weather</div>
-            <div class="card-subtitle" text-center>Weather</div>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-footer>
+  <div class="popup center" *ngIf="tab1">
+
+    <ion-card>
+
+      <!-- <div style="text-align: right;margin: 5px; font-size: 2.5rem;position: fixed;right: 26px;z-index: 1;">
+
+        <ion-icon name="close" item-end (click)="onClosePopup()"></ion-icon>
+
+      </div> -->
+
+      <ion-card-content class="cardCustom">
+
+        <ion-card-title>
+
+          Tab1
+
+        </ion-card-title>
+
+        <hr> abc
+
+      </ion-card-content>
+
+    </ion-card>
+
+  </div>
+
+  <div class="popup center" *ngIf="tab2">
+
+    <ion-card>
+
+      <!-- <div style="text-align: right;margin: 5px; font-size: 2.5rem;position: fixed;right: 26px;z-index: 1;">
+
+        <ion-icon name="close" item-end (click)="onClosePopup()"></ion-icon>
+
+      </div> -->
+
+      <ion-card-content class="cardCustom">
+
+        <ion-card-title>
+
+          Tab2
+
+        </ion-card-title>
+
+        <hr> asdasdasdasd
+
+      </ion-card-content>
+
+    </ion-card>
+
+  </div>
+
+  <div class="popup center" *ngIf="tab3">
+
+    <ion-card>
+
+      <!-- <div style="text-align: right;margin: 5px; font-size: 2.5rem;position: fixed;right: 26px;z-index: 1;">
+
+        <ion-icon name="close" item-end (click)="onClosePopup()"></ion-icon>
+
+      </div> -->
+
+      <ion-card-content class="cardCustom">
+
+        <ion-card-title>
+
+          Tab3
+
+        </ion-card-title>
+
+        <hr> 3532523523523
+
+      </ion-card-content>
+
+    </ion-card>
+
+  </div>
 
 </ion-content>
 
-<!--2<ion-card>
-  <div style="text-align: right;margin: 5px; font-size: 2.5rem;position: fixed;right: 26px;z-index: 1;">
-      <ion-icon name="close" item-end (click)="onClosePopup()"></ion-icon>
-  </div>
-  <ion-card-content class="cardCustom">
-    <ion-card-title>
-      <ion-item >
-      <ion-avatar item-start>
-        <img style="width: 50px; height: 50px;" src="https://firebasestorage.googleapis.com/v0/b/tram-rsu.appspot.com/o/imgs%2Favatar.png?alt=media&token=a4e22795-64e2-4770-96a4-11ec4a55d782">
-      </ion-avatar>
-      <h2>{{tramStopInfo?.properties.title}}</h2>
-      <p>{{tramStopInfo?.properties.description}}</p>
-    </ion-item>
-    </ion-card-title>
-    <hr >
+<ion-footer>
 
-    <p *ngFor="let item of data$ | async" >
-      <ion-item>
-        <!-- <ion-avatar item-start>
-          <img src="https://firebasestorage.googleapis.com/v0/b/tram-rsu.appspot.com/o/imgs%2Favatar.png?alt=media&token=a4e22795-64e2-4770-96a4-11ec4a55d782">
-        </ion-avatar> //
-        <div item-start>
-          <h2>{{item.name}}</h2>
-          <p>
-            <span>{{item.distance}} m.</span>
-            <span>{{item.duration}} sec.</span>
-          </p>
-        </div>
-        <div item-end>
-          <a>แจ้งเตือน</a>
-        </div>
+  <ion-toolbar>
 
-      </ion-item>
-    </p>
-    <br>
-    <br><br>
-  </ion-card-content>
-</ion-card> -->
+    <ion-grid>
+
+      <ion-row>
+
+        <ion-col text-center>
+
+          <a (click)="openTrainTab()">
+
+            <ion-icon name="train"></ion-icon>
+          </a>
+
+        </ion-col>
+
+        <ion-col text-center>
+
+          <a (click)="openLocationTab()">
+
+            <ion-icon name="home"></ion-icon>
+          </a>
+
+        </ion-col>
+
+        <ion-col text-center>
+
+          <a (click)="openWeatherTab()">
+
+            <ion-icon name="rainy"></ion-icon>
+          </a>
+
+        </ion-col>
+
+      </ion-row>
+
+    </ion-grid>
+
+  </ion-toolbar>
+
+</ion-footer>
