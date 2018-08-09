@@ -18,7 +18,6 @@ import { Facebook } from '@ionic-native/facebook';
 import { AngularFireModule } from 'angularfire2';
 import {
   AngularFirestoreModule,
-  AngularFirestore,
 } from 'angularfire2/firestore';
 
 export const firebaseConfig = {
@@ -36,7 +35,7 @@ export const firebaseConfig = {
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireModule,
+    AngularFirestoreModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [MyApp, HomePage, LoginPage],
@@ -46,7 +45,6 @@ export const firebaseConfig = {
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     Geolocation,
     Facebook,
-    AngularFirestore,
   ],
 })
 export class AppModule {}
