@@ -1,10 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-} from 'angularfire2/firestore';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 declare var google;
 
@@ -24,7 +21,7 @@ export class HomePage {
   tab3 = false;
 
   constructor(
-    public afs: AngularFirestore,
+    private afs: AngularFirestore,
     public navCtrl: NavController,
     public geolocation: Geolocation,
     private modal: ModalController
