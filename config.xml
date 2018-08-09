@@ -86,5 +86,5 @@
         <variable name="APP_ID" value="209534666404707" />
         <variable name="APP_NAME" value="RsuSmartTrain" />
     </plugin>
-    <engine name="android" spec="^6.4.0" />
+    <engine name="android" spec="6.4.0" />
 </widget>

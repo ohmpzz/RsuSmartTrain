@@ -1,10 +1,10 @@
-import { WeatherPage } from './../weather/weather';
-import { TrainPage } from './../train/train';
-
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
-import { LocationPage } from '../location/location';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from 'angularfire2/firestore';
 
 declare var google;
 
@@ -13,7 +13,8 @@ declare var google;
   templateUrl: 'home.html',
 })
 export class HomePage {
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map')
+  mapElement: ElementRef;
   map: any;
 
   tab1 = false;
@@ -23,6 +24,7 @@ export class HomePage {
   tab3 = false;
 
   constructor(
+    public afs: AngularFirestore,
     public navCtrl: NavController,
     public geolocation: Geolocation,
     private modal: ModalController

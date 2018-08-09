@@ -1,6 +1,3 @@
-import { LocationPage } from './../pages/location/location';
-import { TrainPage } from './../pages/train/train';
-
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import {
@@ -18,19 +15,38 @@ import { Geolocation } from '@ionic-native/geolocation';
 
 import { LoginPage } from '../pages/login/login';
 import { Facebook } from '@ionic-native/facebook';
-import { WeatherPage } from '../pages/weather/weather';
+import { AngularFireModule } from 'angularfire2';
+import {
+  AngularFirestoreModule,
+  AngularFirestore,
+} from 'angularfire2/firestore';
+
+export const firebaseConfig = {
+  apiKey: 'AIzaSyCK6rkI6rP2BynM9bvpvyoFqUJBa-ILKE8',
+  authDomain: 'rsusmarttrain.firebaseapp.com',
+  databaseURL: 'https://rsusmarttrain.firebaseio.com',
+  projectId: 'rsusmarttrain',
+  storageBucket: 'rsusmarttrain.appspot.com',
+  messagingSenderId: '50308423429',
+};
 
 @NgModule({
-  declarations: [MyApp, HomePage, LoginPage, WeatherPage, LocationPage],
-  imports: [BrowserModule, IonicModule.forRoot(MyApp)],
+  declarations: [MyApp, HomePage, LoginPage],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule,
+  ],
   bootstrap: [IonicApp],
-  entryComponents: [MyApp, HomePage, LoginPage, WeatherPage, LocationPage],
+  entryComponents: [MyApp, HomePage, LoginPage],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     Geolocation,
     Facebook,
+    AngularFirestore,
   ],
 })
 export class AppModule {}

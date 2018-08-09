@@ -1,7 +1,3 @@
-import { WeatherPage } from './../pages/weather/weather';
-import { LocationPage } from './../pages/location/location';
-import { TrainPage } from './../pages/train/train';
-
 import { LoginPage } from './../pages/login/login';
 import { Component, ViewChild } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -14,7 +10,6 @@ import { HomePage } from '../pages/home/home';
   templateUrl: 'app.html',
 })
 export class MyApp {
-
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = HomePage;
