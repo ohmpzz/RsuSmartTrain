@@ -3,7 +3,15 @@ import { NavController, ModalController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { AngularFirestore } from 'angularfire2/firestore';
 
+import { map } from 'rxjs/operators';
+
 declare var google;
+
+interface BusStop {
+  id?: string;
+  coords?: any[];
+  stopName?: string;
+}
 
 @Component({
   selector: 'page-home',
@@ -20,6 +28,9 @@ export class HomePage {
 
   tab3 = false;
 
+  busStops: BusStop[];
+  test: BusStop;
+
   constructor(
     private afs: AngularFirestore,
     public navCtrl: NavController,
@@ -28,7 +39,27 @@ export class HomePage {
   ) {}
 
   ionViewDidLoad() {
+    this.getBusStops().subscribe((stop: BusStop[]) => {
+      this.busStops = stop;
+      console.log(stop);
+    });
     this.loadMap();
+  }
+
+  getBusStops() {
+    return this.afs
+      .collection<BusStop>('busStops')
+      .snapshotChanges()
+      .pipe(
+        map(actions => {
+          return actions.map(a => {
+            return {
+              id: a.payload.doc.id,
+              ...(a.payload.doc.data() as BusStop),
+            };
+          });
+        })
+      );
   }
 
   loadMap() {
@@ -49,6 +80,8 @@ export class HomePage {
           this.mapElement.nativeElement,
           mapOptions
         );
+
+        this.addMarker();
       },
       err => {
         console.log(err);
@@ -57,10 +90,11 @@ export class HomePage {
   }
 
   addMarker() {
+    let myLatLng = { lat: 13.894287, lng: 100.606424 };
     let marker = new google.maps.Marker({
       map: this.map,
       animation: google.maps.Animation.DROP,
-      position: this.map.getCenter(),
+      position: myLatLng,
     });
 
     let content = '<h4>Information!</h4>';
