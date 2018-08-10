@@ -38,12 +38,22 @@ export class HomePage {
     private modal: ModalController
   ) {}
 
-  ionViewDidLoad() {
+  async ionViewDidLoad() {
+    await this.loadMap(); // เป็นเทคนิค async/await ... ต้องการให้ Fn นี้ทำเสร็จก่อนที่จะไปทำ Fn ข้างล่างต่อ
+
     this.getBusStops().subscribe((stop: BusStop[]) => {
-      this.busStops = stop;
-      console.log(stop);
+      if (stop) {
+        // ตรงนี้ใช้ pipe filter ได้ เช่น
+        // this.getBusStops().pipe(filter(data => data)).subscribe
+        // เพื่อเช็คว่ามีข้อมูลหรือป่าว แต่ใช้ if ก็โอเคนะ
+
+        stop.forEach(s => {
+          // เติม + ข้างหน้าให้ติดกัน จะหมายถึง ให้ข้อมูลตัวนั้นเป็น int หรือ number
+          // addMarker() ตัวนี้จะเรียกว่า pure function เพราะ ไม่ต้องการข้อมูลจากนอก fn จะเอา ข้อมูลจาก params เท่านั้นมาคำนวณ
+          this.addMarker(+s.coords[0], +s.coords[1]);
+        });
+      }
     });
-    this.loadMap();
   }
 
   getBusStops() {
@@ -63,38 +73,42 @@ export class HomePage {
   }
 
   loadMap() {
-    this.geolocation.getCurrentPosition().then(
-      position => {
-        let latLng = new google.maps.LatLng(
-          position.coords.latitude,
-          position.coords.longitude
-        );
+    return new Promise((resolve, reject) => {
+      this.geolocation.getCurrentPosition().then(
+        position => {
+          let latLng = new google.maps.LatLng(
+            position.coords.latitude,
+            position.coords.longitude
+          );
 
-        let mapOptions = {
-          center: latLng,
-          zoom: 15,
-          mapTypeId: google.maps.MapTypeId.ROADMAP,
-        };
+          let mapOptions = {
+            center: latLng,
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+          };
 
-        this.map = new google.maps.Map(
-          this.mapElement.nativeElement,
-          mapOptions
-        );
+          this.map = new google.maps.Map(
+            this.mapElement.nativeElement,
+            mapOptions
+          );
+          this.addMarker(13.894287, 100.606424);
 
-        this.addMarker();
-      },
-      err => {
-        console.log(err);
-      }
-    );
+          resolve();
+        },
+        err => {
+          console.log(err);
+          reject(err);
+        }
+      );
+    });
   }
 
-  addMarker() {
-    let myLatLng = { lat: 13.894287, lng: 100.606424 };
+  addMarker(lat, lng) {
+    // let myLatLng = { lat: 13.894287, lng: 100.606424 };
     let marker = new google.maps.Marker({
       map: this.map,
       animation: google.maps.Animation.DROP,
-      position: myLatLng,
+      position: { lat, lng }, //  {lat} == {lat: lat} แค่ตั้งชื่อให้เหมือนกัน
     });
 
     let content = '<h4>Information!</h4>';
