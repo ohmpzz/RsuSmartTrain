@@ -49,21 +49,11 @@ export class HomePage {
   ) {}
 
   async ionViewDidLoad() {
-    await this.loadMap(); // เป็นเทคนิค async/await ... ต้องการให้ Fn นี้ทำเสร็จก่อนที่จะไปทำ Fn ข้างล่างต่อ
+    await this.loadMap();
 
     this.getBusStops().subscribe((stop: BusStop[]) => {
       if (stop) {
-        // ตรงนี้ใช้ pipe filter ได้ เช่น
-
-        // this.getBusStops().pipe(filter(data => data)).subscribe
-
-        // เพื่อเช็คว่ามีข้อมูลหรือป่าว แต่ใช้ if ก็โอเคนะ
-
         stop.forEach(s => {
-          // เติม + ข้างหน้าให้ติดกัน จะหมายถึง ให้ข้อมูลตัวนั้นเป็น int หรือ number
-
-          // addMarker() ตัวนี้จะเรียกว่า pure function เพราะ ไม่ต้องการข้อมูลจากนอก fn จะเอา ข้อมูลจาก params เท่านั้นมาคำนวณ
-
           this.addMarker(+s.coords[0], +s.coords[1], s.stopName);
         });
       }
@@ -72,17 +62,13 @@ export class HomePage {
 
   getBusStops() {
     return this.afs
-
       .collection<BusStop>('busStops')
-
       .snapshotChanges()
-
       .pipe(
         map(actions => {
           return actions.map(a => {
             return {
               id: a.payload.doc.id,
-
               ...(a.payload.doc.data() as BusStop),
             };
           });
@@ -117,7 +103,7 @@ export class HomePage {
             mapOptions
           );
 
-          this.addMarker(latitude, longitude, 'You are here');
+          // this.addMarker(latitude, longitude, 'You are here');
           this.addMapLine();
           resolve();
         },
@@ -173,16 +159,16 @@ export class HomePage {
 
   showCurrentPostion() {
     this.geolocation.watchPosition().subscribe(position => {
-      let myPos = new google.maps.Latlng(
-        position.coords.longitude,
-        position.coords.latitude
+      let latLng = new google.maps.LatLng(
+        position.coords.latitude,
+        position.coords.longitude
       );
 
       let marker = new google.maps.Marker({
         map: this.map,
-        position: myPos,
+        position: latLng,
       });
-      console.log(myPos);
+      console.log(latLng);
       let content = '<h4>You are here</h4>';
       this.addInfoWindow(marker, content);
     });
@@ -194,7 +180,7 @@ export class HomePage {
 
       // animation: google.maps.Animation.DROP,
 
-      position: { lat, lng }, //  {lat} == {lat: lat} แค่ตั้งชื่อให้เหมือนกัน
+      position: { lat, lng },
     });
 
     let content = stopName;
