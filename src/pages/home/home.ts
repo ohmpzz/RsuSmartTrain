@@ -118,7 +118,7 @@ export class HomePage {
           );
 
           this.addMarker(latitude, longitude, 'You are here');
-
+          this.addMapLine();
           resolve();
         },
 
@@ -130,23 +130,45 @@ export class HomePage {
       );
     });
   }
+  addMapLine() {
+    const mapLineCoords = [
+      { lat: 13.96585, lng: 100.587298 },
+      { lat: 13.964558, lng: 100.587601 },
+      { lat: 13.964346, lng: 100.587616 },
+      { lat: 13.964184, lng: 100.587539 },
+      { lat: 13.964087, lng: 100.587429 },
+      { lat: 13.963815, lng: 100.586272 },
+      { lat: 13.966047, lng: 100.585674 },
+      { lat: 13.966967, lng: 100.585454 },
+      { lat: 13.967582, lng: 100.585351 },
+      { lat: 13.967854, lng: 100.585334 },
+      { lat: 13.967851, lng: 100.586566 },
+      { lat: 13.968088, lng: 100.586611 },
+      { lat: 13.968253, lng: 100.587355 },
+      { lat: 13.968222, lng: 100.587432 },
+      { lat: 13.968149, lng: 100.587428 },
+      { lat: 13.968105, lng: 100.587363 },
+      { lat: 13.968076, lng: 100.587255 },
+      { lat: 13.968129, lng: 100.587171 },
+      { lat: 13.96821, lng: 100.587161 },
+      { lat: 13.968088, lng: 100.586611 },
+      { lat: 13.96785, lng: 100.586566 },
+      { lat: 13.967617, lng: 100.586525 },
+      { lat: 13.966475, lng: 100.586828 },
+      { lat: 13.966333, lng: 100.586871 },
+      { lat: 13.966152, lng: 100.587145 },
+      { lat: 13.96585, lng: 100.587298 },
+    ];
 
-  testa() {
-    var eiie = navigator.geolocation.watchPosition(position => {
-      let myPos = new google.maps.Latlng(
-        position.coords.longitude,
-        position.coords.latitude
-      );
-
-      let marker = new google.maps.Marker({
-        map: this.map,
-        animation: google.maps.Animation.DROP,
-        position: myPos,
-      });
-      console.log(myPos);
-      let content = '<h4>You are here</h4>';
-      this.addInfoWindow(marker, content);
+    const mapLine = new google.maps.Polyline({
+      path: mapLineCoords,
+      geodesic: true,
+      strokeColor: '#FF0000',
+      strokeOpacity: 1.0,
+      strokeWeight: 2,
     });
+
+    mapLine.setMap(this.map);
   }
 
   showCurrentPostion() {
