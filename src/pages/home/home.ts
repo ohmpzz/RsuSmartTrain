@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
 
-import { Geolocation, Geoposition } from '@ionic-native/geolocation';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { AngularFirestore } from 'angularfire2/firestore';
 
@@ -155,6 +155,32 @@ export class HomePage {
     });
 
     mapLine.setMap(this.map);
+  }
+
+  addDirectionService() {
+    this.geolocation.watchPosition().subscribe(position => {
+      let latLng = new google.maps.LatLng(
+        position.coords.latitude,
+        position.coords.longitude
+      );
+      let directionService = new google.maps.DirectionsService();
+      let directionDisplay = new google.maps.DirectionsRenderer();
+      const testEnd = new google.maps.LatLng(13.963325, 100.587899);
+      const build1 = new google.maps.LatLng(13.963325, 100.587899);
+      const request = {
+        //origin: latLng,
+        origin: latLng,
+        //destination: testEnd,
+        destination: document.getElementById('end'),
+        travelMode: 'DRIVING',
+      };
+      directionService.route(request, function(result, status) {
+        if (status == 'OK') {
+          directionDisplay.setDirections(result);
+        }
+      });
+      directionDisplay.setMap(this.map);
+    });
   }
 
   showCurrentPostion() {
