@@ -1,21 +1,24 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-
 import { NavController } from 'ionic-angular';
-
 import { Geolocation } from '@ionic-native/geolocation';
-
 import { AngularFirestore } from 'angularfire2/firestore';
-
 import { map } from 'rxjs/operators';
 
 declare var google;
 
 interface BusStop {
   id?: string;
-
   coords?: any[];
-
   stopName?: string;
+}
+
+interface Direction {
+  building?: string;
+  name?: string;
+  coords?: {
+    lat?: number;
+    lng?: number;
+  };
 }
 
 @Component({
@@ -33,14 +36,15 @@ export class HomePage {
   y: number;
 
   tab1 = false;
-
   tab2 = false;
-
   tab3 = false;
 
   busStops: BusStop[];
 
   test: BusStop;
+
+  direction: Direction[] = [];
+  go: { start?: any; end?: any } = {};
 
   constructor(
     private afs: AngularFirestore,
@@ -49,6 +53,7 @@ export class HomePage {
   ) {}
 
   async ionViewDidLoad() {
+    this.initDirection();
     await this.loadMap();
 
     this.getBusStops().subscribe((stop: BusStop[]) => {
@@ -224,6 +229,14 @@ export class HomePage {
     });
   }
 
+  onDirection() {
+    console.log(this.go);
+    const start = this.direction.find(d => (d.building = this.go.start));
+    const end = this.direction.find(d => (d.building = this.go.end));
+    console.log('start:::', start.coords);
+    console.log('end:::', end.coords);
+  }
+
   openTrainTab() {
     console.log('star 1');
 
@@ -264,5 +277,162 @@ export class HomePage {
     this.tab2 = false;
 
     this.tab1 = false;
+  }
+
+  private initDirection() {
+    this.direction = [
+      {
+        building: '1',
+        name: 'ตึก 1 อาคารอาทิตย์อุไรรัตน์',
+        coords: {
+          lat: 13.965257,
+          lng: 100.586956,
+        },
+      },
+      {
+        building: '2',
+        name: 'ตึก 2 อาคารประสิทธิรัตน์',
+        coords: {
+          lat: 13.964132,
+          lng: 100.587922,
+        },
+      },
+      {
+        building: '3',
+        name: 'ตึก 3 อาคารอุไรรัตน์',
+        coords: {
+          lat: 13.963774,
+          lng: 100.586952,
+        },
+      },
+      {
+        building: '4',
+        name: 'ตึก 4 อาคารวิทยาศาสตร์การแพทย์',
+        coords: {
+          lat: 13.963568,
+          lng: 100.585858,
+        },
+      },
+      {
+        building: '5',
+        name: 'ตึก 5 อาคารวิษณุรัตน์',
+        coords: {
+          lat: 13.964534,
+          lng: 100.58592,
+        },
+      },
+      {
+        building: '6',
+        name: 'ตึก 6 อาคาร Student Center',
+        coords: {
+          lat: 13.964537,
+          lng: 100.586878,
+        },
+      },
+      {
+        building: '7',
+        name: 'ตึก 7 อาคารหอสมุด',
+        coords: {
+          lat: 13.965715,
+          lng: 100.585836,
+        },
+      },
+      {
+        building: '8',
+        name: 'ตึก 8 อาคารคุณหญิงพัฒนา',
+        coords: {
+          lat: 13.965025,
+          lng: 100.58516,
+        },
+      },
+      {
+        building: '9',
+        name: 'ตึก 9 อาคารประสิทธิ์พัฒนา',
+        coords: {
+          lat: 13.965846,
+          lng: 100.58551,
+        },
+      },
+      {
+        building: '10',
+        name: 'ตึก 10 อาคารคณะรังสีเทคนิค',
+        coords: {
+          lat: 13.966288,
+          lng: 100.586243,
+        },
+      },
+      {
+        building: '11',
+        name: 'ตึก 11 อาคารรัตนคุณากร',
+        coords: {
+          lat: 13.966287,
+          lng: 100.586583,
+        },
+      },
+      {
+        building: '12',
+        name: 'ตึก 12 อาคารรังสิตประยูรศักดิ์',
+        coords: {
+          lat: 13.967545,
+          lng: 100.585508,
+        },
+      },
+      {
+        building: '13',
+        name: 'ตึก 13 สำนักงานอาคารและสิ่งแวดล้อม',
+        coords: {
+          lat: 13.967133,
+          lng: 100.584957,
+        },
+      },
+      {
+        building: '14',
+        name: 'ตึก 14 อาคารนันทนาการ',
+        coords: {
+          lat: 13.968262,
+          lng: 100.587354,
+        },
+      },
+      {
+        building: '15',
+        name: 'ตึก 15 อาคารดิจิตอล มัลติมีเดีย',
+        coords: {
+          lat: 13.967861,
+          lng: 100.585251,
+        },
+      },
+      {
+        building: '16',
+        name: 'ตึก 16 อาคารบริการ',
+        coords: {
+          lat: 13.966853,
+          lng: 100.583721,
+        },
+      },
+      {
+        building: '17',
+        name: 'ตึก 17 อาคารศาลาดนตรีสุริยเทพ',
+        coords: {
+          lat: 13.967306,
+          lng: 100.583691,
+        },
+      },
+      {
+        building: '18',
+        name: 'ตึก 18 อาคารศาลากวนอิม',
+        coords: {
+          lat: 13.968128,
+          lng: 100.583866,
+        },
+      },
+      {
+        building: '19',
+        name: 'ตึก 19 อาคารสถาปัตย์',
+        coords: {
+          lat: 13.968913,
+          lng: 100.583886,
+        },
+      },
+    ];
   }
 }

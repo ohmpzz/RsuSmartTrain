@@ -55,27 +55,9 @@
         <ion-list>
           <ion-item>
             <ion-label>Start:</ion-label>
-            <ion-select [(ngModel)]="start">
-              <ion-option value="latLng">Your Location</ion-option>
-              <ion-option value="build1">ตึก 1 อาคารอาทิตย์อุไรรัตน์</ion-option>
-              <ion-option value="build2">ตึก 2 อาคารประสิทธิรัตน์</ion-option>
-              <ion-option value="build3">ตึก 3 อาคารอุไรรัตน์</ion-option>
-              <ion-option value="build4">ตึก 4 อาคารวิทยาศาสตร์การแพทย์</ion-option>
-              <ion-option value="build5">ตึก 5 อาคารวิษณุรัตน์</ion-option>
-              <ion-option value="build6">ตึก 6 อาคาร Student Center</ion-option>
-              <ion-option value="build7">ตึก 7 อาคารหอสมุด</ion-option>
-              <ion-option value="build8">ตึก 8 อาคารคุณหญิงพัฒนา</ion-option>
-              <ion-option value="build9">ตึก 9 อาคารประสิทธิ์พัฒนา</ion-option>
-              <ion-option value="build10">ตึก 10 อาคารคณะรังสีเทคนิค</ion-option>
-              <ion-option value="build11">ตึก 11 อาคารรัตนคุณากร</ion-option>
-              <ion-option value="build12">ตึก 12 อาคารรังสิตประยูรศักดิ์</ion-option>
-              <ion-option value="build13">ตึก 13 สำนักงานอาคารและสิ่งแวดล้อม</ion-option>
-              <ion-option value="build14">ตึก 14 อาคารนันทนาการ</ion-option>
-              <ion-option value="build15">ตึก 15 อาคารดิจิตอล มัลติมีเดีย</ion-option>
-              <ion-option value="build16">ตึก 16 อาคารบริการ</ion-option>
-              <ion-option value="build17">ตึก 17 อาคารศาลาดนตรีสุริยเทพ</ion-option>
-              <ion-option value="build18">ตึก 18 อาคารศาลากวนอิม</ion-option>
-              <ion-option value="build19">ตึก 19 อาคารสถาปัตย์</ion-option>
+            <ion-select [(ngModel)]="go.start">
+              <ion-option value="">Your Location</ion-option>
+              <ion-option *ngFor="let d of direction" [value]="d.building">{{d.name}}</ion-option>
             </ion-select>
           </ion-item>
         </ion-list>
@@ -83,29 +65,15 @@
           <ion-item>
 
             <ion-label>End:</ion-label>
-            <ion-select [(ngModel)]="end">
-              <ion-option value="yourLoc">Your Location</ion-option>
-              <ion-option value="build1">ตึก 1 อาคารอาทิตย์อุไรรัตน์</ion-option>
-              <ion-option value="build2">ตึก 2 อาคารประสิทธิรัตน์</ion-option>
-              <ion-option value="build3">ตึก 3 อาคารอุไรรัตน์</ion-option>
-              <ion-option value="build4">ตึก 4 อาคารวิทยาศาสตร์การแพทย์</ion-option>
-              <ion-option value="build5">ตึก 5 อาคารวิษณุรัตน์</ion-option>
-              <ion-option value="build6">ตึก 6 อาคาร Student Center</ion-option>
-              <ion-option value="build7">ตึก 7 อาคารหอสมุด</ion-option>
-              <ion-option value="build8">ตึก 8 อาคารคุณหญิงพัฒนา</ion-option>
-              <ion-option value="build9">ตึก 9 อาคารประสิทธิ์พัฒนา</ion-option>
-              <ion-option value="build10">ตึก 10 อาคารคณะรังสีเทคนิค</ion-option>
-              <ion-option value="build11">ตึก 11 อาคารรัตนคุณากร</ion-option>
-              <ion-option value="build12">ตึก 12 อาคารรังสิตประยูรศักดิ์</ion-option>
-              <ion-option value="build13">ตึก 13 สำนักงานอาคารและสิ่งแวดล้อม</ion-option>
-              <ion-option value="build14">ตึก 14 อาคารนันทนาการ</ion-option>
-              <ion-option value="build15">ตึก 15 อาคารดิจิตอล มัลติมีเดีย</ion-option>
-              <ion-option value="build16">ตึก 16 อาคารบริการ</ion-option>
-              <ion-option value="build17">ตึก 17 อาคารศาลาดนตรีสุริยเทพ</ion-option>
-              <ion-option value="build18">ตึก 18 อาคารศาลากวนอิม</ion-option>
-              <ion-option value="build19">ตึก 19 อาคารสถาปัตย์</ion-option>
+            <ion-select [(ngModel)]="go.end">
+              <ion-option value="">Your Location</ion-option>
+              <ion-option *ngFor="let d of direction" [value]="d.building">{{d.name}}</ion-option>
             </ion-select>
           </ion-item>
+        </ion-list>
+
+        <ion-list>
+          <button ion-button float-right (click)="onDirection()">Go</button>
         </ion-list>
 
       </ion-card-content>
