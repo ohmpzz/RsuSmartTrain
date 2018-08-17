@@ -231,8 +231,8 @@ export class HomePage {
 
   onDirection() {
     console.log(this.go);
-    const start = this.direction.find(d => (d.building = this.go.start));
-    const end = this.direction.find(d => (d.building = this.go.end));
+    const start = this.direction.find(d => d.building == this.go.start);
+    const end = this.direction.find(d => d.building == this.go.end);
     console.log('start:::', start.coords);
     console.log('end:::', end.coords);
   }
