@@ -8,6 +8,7 @@ import {
 } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { FormsModule } from '@angular/forms';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -16,9 +17,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { LoginPage } from '../pages/login/login';
 import { Facebook } from '@ionic-native/facebook';
 import { AngularFireModule } from 'angularfire2';
-import {
-  AngularFirestoreModule,
-} from 'angularfire2/firestore';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCK6rkI6rP2BynM9bvpvyoFqUJBa-ILKE8',
@@ -36,6 +35,7 @@ export const firebaseConfig = {
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
+    FormsModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [MyApp, HomePage, LoginPage],
