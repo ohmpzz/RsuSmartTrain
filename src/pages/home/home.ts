@@ -167,14 +167,14 @@ export class HomePage {
         position.coords.latitude,
         position.coords.longitude
       );
-      const start = this.direction.find(d => d.building == this.go.start);
+      // const start = this.direction.find(d => d.building == this.go.start);
       const end = this.direction.find(d => d.building == this.go.end);
       let directionService = new google.maps.DirectionsService();
       let directionDisplay = new google.maps.DirectionsRenderer();
 
       const request = {
-        //origin: latLng,
-        origin: start.coords,
+        //origin: start.coords
+        origin: latLng,
         //destination: testEnd,
         destination: end.coords,
         travelMode: 'DRIVING',
