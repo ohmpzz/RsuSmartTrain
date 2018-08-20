@@ -116,8 +116,6 @@
 
               <ion-option value="yourLoc">Your Location</ion-option>
 
-              <ion-option *ngFor="let d of direction" [value]="d.building">{{d.name}}</ion-option>
-
             </ion-select>
 
           </ion-item>
@@ -128,16 +126,11 @@
 
           <ion-item>
 
-
-
             <ion-label>End:</ion-label>
 
             <ion-select [(ngModel)]="go.end">
 
-              <ion-option value="">Your Location</ion-option>
-
               <ion-option *ngFor="let d of direction" [value]="d.building">{{d.name}}</ion-option>
-
             </ion-select>
 
           </ion-item>

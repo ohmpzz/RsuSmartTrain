@@ -170,7 +170,7 @@ export class HomePage {
         position.coords.latitude,
         position.coords.longitude
       );
-      const start = this.direction.find(d => d.building == this.go.start);
+      // const start = this.direction.find(d => d.building == this.go.start);
       const end = this.direction.find(d => d.building == this.go.end);
 
       const request = {
