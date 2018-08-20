@@ -1,158 +1,315 @@
 <ion-header>
 
+
+
   <ion-navbar>
 
+
+
     <button ion-button menuToggle>
+
       <ion-icon name="menu"></ion-icon>
+
     </button>
+
+
 
     <ion-title> RsuSmart Train</ion-title>
 
+
+
     <ion-buttons end>
-      <button ion-button (click)="addDirectionService()">
+
+      <button ion-button (click)="[]">
+
         <ion-icon name="add"></ion-icon>Show My Pos</button>
+
     </ion-buttons>
+
   </ion-navbar>
+
 </ion-header>
+
+
 
 <ion-content>
 
+
+
   <div #map id="map"></div>
+
+
 
   <div class="popup center" *ngIf="tab1">
 
+
+
     <ion-card>
+
+
 
       <ion-card-content class="cardCustom">
 
+
+
         <ion-card-title>
+
+
 
           Tab1
 
+
+
         </ion-card-title>
+
+
 
         <hr> abc
 
+
+
       </ion-card-content>
+
+
 
     </ion-card>
 
+
+
   </div>
+
+
 
   <div class="popup center" *ngIf="tab2">
 
+
+
     <ion-card>
+
+
 
       <ion-card-content class="cardCustom">
 
+
+
         <ion-card-title>
+
+
 
           Direction
 
+
+
         </ion-card-title>
 
+
+
         <hr>
+
         <ion-list>
+
           <ion-item>
+
             <ion-label>Start:</ion-label>
+
             <ion-select [(ngModel)]="go.start">
-              <ion-option value="">Your Location</ion-option>
+
+              <ion-option value="yourLoc">Your Location</ion-option>
+
               <ion-option *ngFor="let d of direction" [value]="d.building">{{d.name}}</ion-option>
+
             </ion-select>
+
           </ion-item>
+
         </ion-list>
+
         <ion-list>
+
           <ion-item>
+
+
 
             <ion-label>End:</ion-label>
+
             <ion-select [(ngModel)]="go.end">
+
               <ion-option value="">Your Location</ion-option>
+
               <ion-option *ngFor="let d of direction" [value]="d.building">{{d.name}}</ion-option>
+
             </ion-select>
+
           </ion-item>
+
         </ion-list>
 
+
+
         <ion-list>
-          <button ion-button float-right (click)="onDirection()">Go</button>
+
+          <button ion-button float-right (click)="addDirectionService()">Go</button>
+
         </ion-list>
+
+
 
       </ion-card-content>
 
+
+
     </ion-card>
 
+
+
   </div>
+
+
 
   <div class="popup center" *ngIf="tab3">
 
+
+
     <ion-card>
+
+
 
       <!-- <div style="text-align: right;margin: 5px; font-size: 2.5rem;position: fixed;right: 26px;z-index: 1;">
 
+
+
         <ion-icon name="close" item-end (click)="onClosePopup()"></ion-icon>
+
+
 
       </div> -->
 
+
+
       <ion-card-content class="cardCustom">
+
+
 
         <ion-card-title>
 
+
+
           Tab3
+
+
 
         </ion-card-title>
 
+
+
         <hr> 3532523523523
+
+
 
       </ion-card-content>
 
+
+
     </ion-card>
+
+
 
   </div>
 
+
+
 </ion-content>
+
+
 
 <ion-footer>
 
+
+
   <ion-toolbar>
+
+
 
     <ion-grid>
 
+
+
       <ion-row>
 
+
+
         <ion-col text-center>
+
+
 
           <a (click)="openTrainTab()">
 
+
+
             <ion-icon name="train"></ion-icon>
+
           </a>
+
           <br/> Train
+
+
 
         </ion-col>
 
+
+
         <ion-col text-center>
+
+
 
           <a (click)="openLocationTab()">
 
+
+
             <ion-icon name="home"></ion-icon>
+
           </a>
+
           <br/> Direction
 
 
+
+
+
         </ion-col>
+
+
 
         <ion-col text-center>
 
+
+
           <a (click)="openWeatherTab()">
 
+
+
             <ion-icon name="rainy"></ion-icon>
+
           </a>
+
           <br/> Weather
+
+
 
         </ion-col>
 
+
+
       </ion-row>
+
+
 
     </ion-grid>
 
+
+
   </ion-toolbar>
+
+
 
 </ion-footer>

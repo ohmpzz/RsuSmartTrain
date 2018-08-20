@@ -86,8 +86,6 @@ export class HomePage {
       //watchPosition
       this.geolocation.getCurrentPosition().then(
         position => {
-          const { latitude, longitude } = position.coords;
-
           let latLng = new google.maps.LatLng(
             position.coords.latitude,
 
@@ -110,6 +108,7 @@ export class HomePage {
 
           // this.addMarker(latitude, longitude, 'You are here');
           this.addMapLine();
+          this.showCurrentPostion();
           resolve();
         },
 
@@ -168,15 +167,16 @@ export class HomePage {
         position.coords.latitude,
         position.coords.longitude
       );
+      const start = this.direction.find(d => d.building == this.go.start);
+      const end = this.direction.find(d => d.building == this.go.end);
       let directionService = new google.maps.DirectionsService();
       let directionDisplay = new google.maps.DirectionsRenderer();
-      const testEnd = new google.maps.LatLng(13.963325, 100.587899);
-      const build1 = new google.maps.LatLng(13.963325, 100.587899);
+
       const request = {
         //origin: latLng,
-        origin: latLng,
+        origin: start.coords,
         //destination: testEnd,
-        destination: document.getElementById('end'),
+        destination: end.coords,
         travelMode: 'DRIVING',
       };
       directionService.route(request, function(result, status) {
@@ -186,6 +186,15 @@ export class HomePage {
       });
       directionDisplay.setMap(this.map);
     });
+  }
+
+  onDirection() {
+    // Test ฟังค์ชั่น รับค่าของ addDirectionService
+    console.log(this.go);
+    const start = this.direction.find(d => d.building == this.go.start);
+    const end = this.direction.find(d => d.building == this.go.end);
+    console.log('start:::', start.coords);
+    console.log('end:::', end.coords);
   }
 
   showCurrentPostion() {
@@ -227,14 +236,6 @@ export class HomePage {
     google.maps.event.addListener(marker, 'click', () => {
       infoWindow.open(this.map, marker);
     });
-  }
-
-  onDirection() {
-    console.log(this.go);
-    const start = this.direction.find(d => d.building == this.go.start);
-    const end = this.direction.find(d => d.building == this.go.end);
-    console.log('start:::', start.coords);
-    console.log('end:::', end.coords);
   }
 
   openTrainTab() {
