@@ -46,6 +46,9 @@ export class HomePage {
   direction: Direction[] = [];
   go: { start?: any; end?: any } = {};
 
+  directionService: any = new google.maps.DirectionsService();
+  directionDisplay: any = new google.maps.DirectionsRenderer();
+
   constructor(
     private afs: AngularFirestore,
     public navCtrl: NavController,
@@ -102,10 +105,10 @@ export class HomePage {
 
           this.map = new google.maps.Map(
             this.mapElement.nativeElement,
-
             mapOptions
           );
 
+          this.directionDisplay.setMap(this.map);
           // this.addMarker(latitude, longitude, 'You are here');
           this.addMapLine();
           this.showCurrentPostion();
@@ -169,22 +172,20 @@ export class HomePage {
       );
       const start = this.direction.find(d => d.building == this.go.start);
       const end = this.direction.find(d => d.building == this.go.end);
-      let directionService = new google.maps.DirectionsService();
-      let directionDisplay = new google.maps.DirectionsRenderer();
 
       const request = {
-        //origin: latLng,
-        origin: start.coords,
+        origin: latLng,
+        // origin: start.coords,
         //destination: testEnd,
         destination: end.coords,
         travelMode: 'DRIVING',
       };
-      directionService.route(request, function(result, status) {
+
+      this.directionService.route(request, (result, status) => {
         if (status == 'OK') {
-          directionDisplay.setDirections(result);
+          this.directionDisplay.setDirections(result);
         }
       });
-      directionDisplay.setMap(this.map);
     });
   }
 
