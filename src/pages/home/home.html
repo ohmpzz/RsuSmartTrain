@@ -1,10 +1,6 @@
 <ion-header>
 
-
-
   <ion-navbar>
-
-
 
     <button ion-button menuToggle>
 
@@ -12,17 +8,13 @@
 
     </button>
 
-
-
     <ion-title> RsuSmart Train</ion-title>
-
-
 
     <ion-buttons end>
 
       <button ion-button (click)="[]">
 
-        <ion-icon name="add"></ion-icon>Show My Pos</button>
+        <ion-icon name="add"></ion-icon>Test()</button>
 
     </ion-buttons>
 
@@ -34,75 +26,39 @@
 
 <ion-content>
 
-
-
   <div #map id="map"></div>
-
-
 
   <div class="popup center" *ngIf="tab1">
 
-
-
     <ion-card>
-
-
 
       <ion-card-content class="cardCustom">
 
-
-
         <ion-card-title>
-
-
 
           Tab1
 
-
-
         </ion-card-title>
-
-
 
         <hr> abc
 
-
-
       </ion-card-content>
-
-
 
     </ion-card>
 
-
-
   </div>
-
-
 
   <div class="popup center" *ngIf="tab2">
 
-
-
     <ion-card>
-
-
 
       <ion-card-content class="cardCustom">
 
-
-
         <ion-card-title>
-
-
 
           Direction
 
-
-
         </ion-card-title>
-
-
 
         <hr>
 
@@ -112,7 +68,7 @@
 
             <ion-label>Start:</ion-label>
 
-            <ion-select [(ngModel)]="go.start">
+            <ion-select [(ngModel)]="go.start" >
 
               <ion-option value="yourLoc">Your Location</ion-option>
 
@@ -137,107 +93,57 @@
 
         </ion-list>
 
-
-
         <ion-list>
 
           <button ion-button float-right (click)="addDirectionService()">Go</button>
 
         </ion-list>
 
-
-
       </ion-card-content>
-
-
 
     </ion-card>
 
-
-
   </div>
-
-
 
   <div class="popup center" *ngIf="tab3">
 
-
-
     <ion-card>
-
-
 
       <!-- <div style="text-align: right;margin: 5px; font-size: 2.5rem;position: fixed;right: 26px;z-index: 1;">
 
-
-
         <ion-icon name="close" item-end (click)="onClosePopup()"></ion-icon>
-
-
 
       </div> -->
 
-
-
       <ion-card-content class="cardCustom">
-
-
 
         <ion-card-title>
 
-
-
           Tab3
-
-
 
         </ion-card-title>
 
-
-
         <hr> 3532523523523
-
-
 
       </ion-card-content>
 
-
-
     </ion-card>
-
-
 
   </div>
 
-
-
 </ion-content>
-
-
 
 <ion-footer>
 
-
-
   <ion-toolbar>
-
-
 
     <ion-grid>
 
-
-
       <ion-row>
-
-
 
         <ion-col text-center>
 
-
-
           <a (click)="openTrainTab()">
-
-
 
             <ion-icon name="train"></ion-icon>
 
@@ -245,19 +151,11 @@
 
           <br/> Train
 
-
-
         </ion-col>
-
-
 
         <ion-col text-center>
 
-
-
           <a (click)="openLocationTab()">
-
-
 
             <ion-icon name="home"></ion-icon>
 
@@ -265,21 +163,11 @@
 
           <br/> Direction
 
-
-
-
-
         </ion-col>
-
-
 
         <ion-col text-center>
 
-
-
           <a (click)="openWeatherTab()">
-
-
 
             <ion-icon name="rainy"></ion-icon>
 
@@ -287,22 +175,12 @@
 
           <br/> Weather
 
-
-
         </ion-col>
-
-
 
       </ion-row>
 
-
-
     </ion-grid>
 
-
-
   </ion-toolbar>
-
-
 
 </ion-footer>
