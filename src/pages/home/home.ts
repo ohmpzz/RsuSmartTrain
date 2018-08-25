@@ -226,7 +226,7 @@ export class HomePage {
           var destinationList = response.destinationAddresses;
           var outputDiv = document.getElementById('output');
           outputDiv.innerHTML = '';
-          deleteMarkers(markersArray);
+          this.deleteMarkers(markersArray);
 
           var showGeocodedAddressOnMap = function(asDestination) {
             var icon = asDestination ? destinationIcon : originIcon;
