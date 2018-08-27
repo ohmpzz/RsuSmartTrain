@@ -12,7 +12,7 @@
 
     <ion-buttons end>
 
-      <button ion-button (click)="[]">
+      <button ion-button (click)="distanceMatrixService()">
 
         <ion-icon name="add"></ion-icon>Test()</button>
 
@@ -36,11 +36,12 @@
 
         <ion-card-title>
 
-          Tab1
+          Train Status
 
         </ion-card-title>
 
-        <hr> abc
+        <hr>
+        <div id="output"></div>
 
       </ion-card-content>
 
@@ -68,7 +69,7 @@
 
             <ion-label>Start:</ion-label>
 
-            <ion-select [(ngModel)]="go.start" >
+            <ion-select [(ngModel)]="go.start">
 
               <ion-option value="yourLoc">Your Location</ion-option>
 

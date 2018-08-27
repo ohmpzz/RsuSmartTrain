@@ -32,9 +32,6 @@ export class HomePage {
 
   map: any;
 
-  x: number;
-  y: number;
-
   tab1 = false;
   tab2 = false;
   tab3 = false;
@@ -84,6 +81,27 @@ export class HomePage {
       );
   }
 
+  showCurrentPostion() {
+    let myMarker: any;
+    let options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+    this.geolocation.watchPosition(options).subscribe(position => {
+      let myLatLng = new google.maps.LatLng(
+        position.coords.latitude,
+        position.coords.longitude
+      );
+      if (myMarker != null) {
+        myMarker.setMap(null);
+      }
+      myMarker = new google.maps.Marker({
+        map: this.map,
+        position: myLatLng,
+      });
+      console.log(myLatLng);
+      let myContent = '<h4>You are here</h4>';
+      this.addInfoWindow(myMarker, myContent);
+    });
+  }
+
   loadMap() {
     return new Promise((resolve, reject) => {
       //watchPosition
@@ -91,33 +109,24 @@ export class HomePage {
         position => {
           let latLng = new google.maps.LatLng(
             position.coords.latitude,
-
             position.coords.longitude
           );
-
           let mapOptions = {
             center: latLng,
-
             zoom: 15,
-
             mapTypeId: google.maps.MapTypeId.ROADMAP,
           };
-
           this.map = new google.maps.Map(
             this.mapElement.nativeElement,
             mapOptions
           );
-
           this.directionDisplay.setMap(this.map);
-          // this.addMarker(latitude, longitude, 'You are here');
           this.addMapLine();
           this.showCurrentPostion();
           resolve();
         },
-
         err => {
           console.log(err);
-
           reject(err);
         }
       );
@@ -203,6 +212,7 @@ export class HomePage {
     var originIcon =
       'https://chart.googleapis.com/chart?' +
       'chst=d_map_pin_letter&chld=O|FFFF00|000000';
+
     var map = new google.maps.Map(document.getElementById('map'), {
       center: { lat: 55.53, lng: 9.4 },
       zoom: 10,
@@ -278,24 +288,6 @@ export class HomePage {
       markersArray[i].setMap(null);
     }
     markersArray = [];
-  }
-
-  showCurrentPostion() {
-    let options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
-    this.geolocation.watchPosition(options).subscribe(position => {
-      let latLng = new google.maps.LatLng(
-        position.coords.latitude,
-        position.coords.longitude
-      );
-
-      let marker = new google.maps.Marker({
-        map: this.map,
-        position: latLng,
-      });
-      console.log(latLng);
-      let content = '<h4>You are here</h4>';
-      this.addInfoWindow(marker, content);
-    });
   }
 
   addMarker(lat, lng, stopName) {
