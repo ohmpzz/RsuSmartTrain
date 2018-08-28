@@ -132,6 +132,7 @@ export class HomePage {
       );
     });
   }
+
   addMapLine() {
     const mapLineCoords = [
       { lat: 13.96585, lng: 100.587298 },
@@ -173,6 +174,13 @@ export class HomePage {
     mapLine.setMap(this.map);
   }
 
+  cancleDirectionService() {
+    // BUG หารูท ใหม่ไม่ได้
+    if (this.directionDisplay != null) {
+      this.directionDisplay.setMap(null);
+    }
+  }
+
   addDirectionService() {
     let options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
     this.geolocation.watchPosition(options).subscribe(position => {
@@ -182,11 +190,11 @@ export class HomePage {
       );
       // const start = this.direction.find(d => d.building == this.go.start);
       const end = this.direction.find(d => d.building == this.go.end);
-
+      const test = { lat: 13.96585, lng: 100.587298 };
       const request = {
-        origin: latLng,
+        origin: test,
         // origin: start.coords,
-        //destination: testEnd,
+        // destination: testEnd,
         destination: end.coords,
         travelMode: 'DRIVING',
       };
