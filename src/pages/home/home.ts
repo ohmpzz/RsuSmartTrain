@@ -2,7 +2,8 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { map } from 'rxjs/operators';
+
+import { map, filter } from 'rxjs/operators';
 
 declare var google;
 
@@ -21,6 +22,17 @@ interface Direction {
   };
 }
 
+interface Train {
+  duration?: {
+    text?: string;
+    value?: number;
+  };
+  distance?: {
+    text?: string;
+    value?: number;
+  };
+}
+
 @Component({
   selector: 'page-home',
 
@@ -29,8 +41,11 @@ interface Direction {
 export class HomePage {
   @ViewChild('map')
   mapElement: ElementRef;
+  stop: boolean = true;
+  train: Train;
 
   map: any;
+  directionMap: any;
 
   tab1 = false;
   tab2 = false;
@@ -120,7 +135,7 @@ export class HomePage {
             this.mapElement.nativeElement,
             mapOptions
           );
-          this.directionDisplay.setMap(this.map);
+
           this.addMapLine();
           this.showCurrentPostion();
           resolve();
@@ -178,124 +193,65 @@ export class HomePage {
     // BUG หารูท ใหม่ไม่ได้
     if (this.directionDisplay != null) {
       this.directionDisplay.setMap(null);
+      this.stop = true;
     }
   }
 
   addDirectionService() {
     let options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
-    this.geolocation.watchPosition(options).subscribe(position => {
-      let latLng = new google.maps.LatLng(
-        position.coords.latitude,
-        position.coords.longitude
-      );
-      // const start = this.direction.find(d => d.building == this.go.start);
-      const end = this.direction.find(d => d.building == this.go.end);
-      const test = { lat: 13.96585, lng: 100.587298 };
-      const request = {
-        origin: test,
-        // origin: start.coords,
-        // destination: testEnd,
-        destination: end.coords,
-        travelMode: 'DRIVING',
-      };
+    this.stop = false;
+    this.geolocation
+      .watchPosition(options)
+      .pipe(filter(() => !this.stop))
+      .subscribe(position => {
+        let latLng = new google.maps.LatLng(
+          position.coords.latitude,
+          position.coords.longitude
+        );
 
-      this.directionService.route(request, (result, status) => {
-        if (status == 'OK') {
-          this.directionDisplay.setDirections(result);
-        }
-      });
-    });
-  }
+        this.directionDisplay.setMap(this.map);
 
-  distanceMatrixService() {
-    var bounds = new google.maps.LatLngBounds();
-    var markersArray = [];
+        // const start = this.direction.find(d => d.building == this.go.start);
+        const end = this.direction.find(d => d.building == this.go.end);
+        const test = { lat: 13.96585, lng: 100.587298 };
+        const request = {
+          origin: test,
+          // origin: start.coords,
+          // destination: testEnd,
+          destination: end.coords,
+          travelMode: 'DRIVING',
+        };
 
-    var origin1 = { lat: 13.965402, lng: 100.5874 };
-    var destinationA = { lat: 13.964184, lng: 100.587542 };
-
-    var destinationIcon =
-      'https://chart.googleapis.com/chart?' +
-      'chst=d_map_pin_letter&chld=D|FF0000|000000';
-    var originIcon =
-      'https://chart.googleapis.com/chart?' +
-      'chst=d_map_pin_letter&chld=O|FFFF00|000000';
-
-    var map = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: 55.53, lng: 9.4 },
-      zoom: 10,
-    });
-    var geocoder = new google.maps.Geocoder();
-    var service = new google.maps.DistanceMatrixService();
-    service.getDistanceMatrix(
-      {
-        origins: [origin1],
-        destinations: [destinationA],
-        travelMode: 'DRIVING',
-        unitSystem: google.maps.UnitSystem.METRIC,
-        avoidHighways: false,
-        avoidTolls: false,
-      },
-      function(response, status) {
-        if (status !== 'OK') {
-          alert('Error was: ' + status);
-        } else {
-          var originList = response.originAddresses;
-          var destinationList = response.destinationAddresses;
-          var outputDiv = document.getElementById('output');
-          outputDiv.innerHTML = '';
-          this.deleteMarkers(markersArray);
-
-          var showGeocodedAddressOnMap = function(asDestination) {
-            var icon = asDestination ? destinationIcon : originIcon;
-            return function(results, status) {
-              if (status === 'OK') {
-                map.fitBounds(bounds.extend(results[0].geometry.location));
-                markersArray.push(
-                  new google.maps.Marker({
-                    map: map,
-                    position: results[0].geometry.location,
-                    icon: icon,
-                  })
-                );
-              } else {
-                alert('Geocode was not successful due to: ' + status);
-              }
-            };
-          };
-
-          for (var i = 0; i < originList.length; i++) {
-            var results = response.rows[i].elements;
-            geocoder.geocode(
-              { address: originList[i] },
-              showGeocodedAddressOnMap(false)
-            );
-            for (var j = 0; j < results.length; j++) {
-              geocoder.geocode(
-                { address: destinationList[j] },
-                showGeocodedAddressOnMap(true)
-              );
-              outputDiv.innerHTML +=
-                originList[i] +
-                ' to ' +
-                destinationList[j] +
-                ': ' +
-                results[j].distance.text +
-                ' in ' +
-                results[j].duration.text +
-                '<br>';
-            }
+        this.directionService.route(request, (result, status) => {
+          if (status == 'OK') {
+            this.directionDisplay.setDirections(result);
           }
-        }
-      }
-    );
+        });
+      });
   }
 
-  deleteMarkers(markersArray) {
-    for (var i = 0; i < markersArray.length; i++) {
-      markersArray[i].setMap(null);
-    }
-    markersArray = [];
+  distanceMatrixService(
+    origin = { lat: 13.965402, lng: 100.5874 },
+    destination = { lat: 13.964184, lng: 100.587542 }
+  ) {
+    let service = new google.maps.DistanceMatrixService();
+    const opt = {
+      origins: [origin],
+      destinations: [destination],
+      travelMode: 'DRIVING',
+      unitSystem: google.maps.UnitSystem.METRIC,
+      avoidHighways: false,
+      avoidTolls: false,
+    };
+
+    service.getDistanceMatrix(opt, (res, status) => {
+      if (status !== 'OK') {
+        alert('Error was: ' + status);
+      } else {
+        const { distance, duration } = res.rows[0].elements[0];
+        this.train = { distance, duration };
+      }
+    });
   }
 
   addMarker(lat, lng, stopName) {
