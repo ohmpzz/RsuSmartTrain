@@ -8,10 +8,6 @@ page-home {
     height: 100%;
   }
 
-  .ion-scroll {
-    height: 100px;
-  }
-
   .popup {
     position: fixed;
     z-index: 999;
@@ -31,5 +27,14 @@ page-home {
     position: relative;
     top: relative;
     overflow-y: auto;
+  }
+
+  .fixed-content {
+    left: 0px;
+    right: -8px;
+    top: 27px;
+    bottom: 0;
+    position: absolute;
+    display: block;
   }
 }

@@ -26,6 +26,14 @@
 
 <ion-content>
 
+  <ion-fab top right edge>
+    <button ion-fab mini><ion-icon name="add"></ion-icon></button>
+    <ion-fab-list>
+      <button (click)="addMapLine1()" ion-fab><ion-icon> R1 </ion-icon></button>
+      <button (click)="addMapLine2()" ion-fab><ion-icon> R2 </ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
+
   <div #map id="map"></div>
 
   <div class="popup center" *ngIf="tab1">
@@ -42,7 +50,7 @@
 
         <hr>
         <div>
-          {{ train | json}}
+          {{ train | json }}
         </div>
 
       </ion-card-content>
@@ -97,8 +105,8 @@
         </ion-list>
 
         <ion-list>
-          <button ion-button float-right (click)="addDirectionService()">Go</button>
           <button ion-button float-right (click)="cancleDirectionService()">Cancle</button>
+          <button ion-button float-right (click)="addDirectionService()">Go</button>
         </ion-list>
 
       </ion-card-content>

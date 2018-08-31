@@ -136,7 +136,8 @@ export class HomePage {
             mapOptions
           );
 
-          this.addMapLine();
+          this.addMapLine1();
+          this.addMapLine2();
           this.showCurrentPostion();
           resolve();
         },
@@ -148,7 +149,7 @@ export class HomePage {
     });
   }
 
-  addMapLine() {
+  addMapLine1() {
     const mapLineCoords = [
       { lat: 13.96585, lng: 100.587298 },
       { lat: 13.964558, lng: 100.587601 },
@@ -181,7 +182,57 @@ export class HomePage {
     const mapLine = new google.maps.Polyline({
       path: mapLineCoords,
       geodesic: true,
-      strokeColor: '#FF0000',
+      strokeColor: '#FC1010',
+      strokeOpacity: 1.0,
+      strokeWeight: 2,
+    });
+    mapLine.setMap(this.map);
+  }
+
+  addMapLine2() {
+    const mapLineCoords = [
+      { lat: 13.96585, lng: 100.587298 },
+      { lat: 13.964558, lng: 100.587601 },
+      { lat: 13.964346, lng: 100.587616 },
+      { lat: 13.964184, lng: 100.587539 },
+      { lat: 13.964087, lng: 100.587429 },
+      { lat: 13.963815, lng: 100.586272 },
+      { lat: 13.966047, lng: 100.585674 },
+      { lat: 13.966967, lng: 100.585454 },
+      { lat: 13.967582, lng: 100.585351 },
+      { lat: 13.967854, lng: 100.585334 },
+
+      { lat: 13.967854, lng: 100.583893 },
+      { lat: 13.967813, lng: 100.583439 },
+      { lat: 13.967307, lng: 100.583485 },
+      { lat: 13.966878, lng: 100.58338 },
+      { lat: 13.967307, lng: 100.583485 },
+      { lat: 13.967813, lng: 100.583439 },
+      { lat: 13.967854, lng: 100.583893 },
+      { lat: 13.967854, lng: 100.585334 },
+
+      { lat: 13.967851, lng: 100.586566 },
+      { lat: 13.968088, lng: 100.586611 },
+      { lat: 13.968253, lng: 100.587355 },
+      { lat: 13.968222, lng: 100.587432 },
+      { lat: 13.968149, lng: 100.587428 },
+      { lat: 13.968105, lng: 100.587363 },
+      { lat: 13.968076, lng: 100.587255 },
+      { lat: 13.968129, lng: 100.587171 },
+      { lat: 13.96821, lng: 100.587161 },
+      { lat: 13.968088, lng: 100.586611 },
+      { lat: 13.96785, lng: 100.586566 },
+      { lat: 13.967617, lng: 100.586525 },
+      { lat: 13.966475, lng: 100.586828 },
+      { lat: 13.966333, lng: 100.586871 },
+      { lat: 13.966152, lng: 100.587145 },
+      { lat: 13.96585, lng: 100.587298 },
+    ];
+
+    const mapLine = new google.maps.Polyline({
+      path: mapLineCoords,
+      geodesic: true,
+      strokeColor: '#624BF4',
       strokeOpacity: 1.0,
       strokeWeight: 2,
     });
@@ -190,7 +241,6 @@ export class HomePage {
   }
 
   cancleDirectionService() {
-    // BUG หารูท ใหม่ไม่ได้
     if (this.directionDisplay != null) {
       this.directionDisplay.setMap(null);
       this.stop = true;
@@ -213,9 +263,8 @@ export class HomePage {
 
         // const start = this.direction.find(d => d.building == this.go.start);
         const end = this.direction.find(d => d.building == this.go.end);
-        const test = { lat: 13.96585, lng: 100.587298 };
         const request = {
-          origin: test,
+          origin: latLng,
           // origin: start.coords,
           // destination: testEnd,
           destination: end.coords,
@@ -231,36 +280,46 @@ export class HomePage {
   }
 
   distanceMatrixService(
-    origin = { lat: 13.965402, lng: 100.5874 },
-    destination = { lat: 13.964184, lng: 100.587542 }
+    // origin = { lat: 13.965402, lng: 100.5874 },
+    destination = { lat: 13.964113, lng: 100.586198 }
   ) {
-    let service = new google.maps.DistanceMatrixService();
-    const opt = {
-      origins: [origin],
-      destinations: [destination],
-      travelMode: 'DRIVING',
-      unitSystem: google.maps.UnitSystem.METRIC,
-      avoidHighways: false,
-      avoidTolls: false,
-    };
+    let options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+    this.geolocation.watchPosition(options).subscribe(position => {
+      let myLatLng = new google.maps.LatLng(
+        position.coords.latitude,
+        position.coords.longitude
+      );
+      let service = new google.maps.DistanceMatrixService();
+      const opt = {
+        origins: [myLatLng],
+        destinations: [destination],
+        travelMode: 'DRIVING',
+        unitSystem: google.maps.UnitSystem.METRIC,
+        avoidHighways: false,
+        avoidTolls: false,
+      };
 
-    service.getDistanceMatrix(opt, (res, status) => {
-      if (status !== 'OK') {
-        alert('Error was: ' + status);
-      } else {
-        const { distance, duration } = res.rows[0].elements[0];
-        this.train = { distance, duration };
-      }
+      service.getDistanceMatrix(opt, (res, status) => {
+        if (status !== 'OK') {
+          alert('Error was: ' + status);
+        } else {
+          const { distance, duration } = res.rows[0].elements[0];
+          this.train = { distance, duration };
+          console.log(this.train);
+        }
+      });
     });
   }
 
   addMarker(lat, lng, stopName) {
+    let icon = {
+      url: './assets/icon/Station_mark.png',
+      size: new google.maps.Size(20, 32),
+    };
     let marker = new google.maps.Marker({
       map: this.map,
-
-      // animation: google.maps.Animation.DROP,
-
       position: { lat, lng },
+      icon,
     });
 
     let content = stopName;
