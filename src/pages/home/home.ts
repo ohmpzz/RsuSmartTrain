@@ -47,6 +47,9 @@ export class HomePage {
   map: any;
   directionMap: any;
 
+  mapLine1: any;
+  mapLine2: any;
+
   tab1 = false;
   tab2 = false;
   tab3 = false;
@@ -130,12 +133,14 @@ export class HomePage {
             center: latLng,
             zoom: 15,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
+            fullscreenControl: false,
+            streetViewControl: false,
+            zoomControl: false,
           };
           this.map = new google.maps.Map(
             this.mapElement.nativeElement,
             mapOptions
           );
-
           this.addMapLine1();
           this.addMapLine2();
           this.showCurrentPostion();
@@ -179,14 +184,14 @@ export class HomePage {
       { lat: 13.96585, lng: 100.587298 },
     ];
 
-    const mapLine = new google.maps.Polyline({
+    this.mapLine1 = new google.maps.Polyline({
       path: mapLineCoords,
       geodesic: true,
       strokeColor: '#FC1010',
       strokeOpacity: 1.0,
       strokeWeight: 2,
     });
-    mapLine.setMap(this.map);
+    this.mapLine1.setMap(this.map);
   }
 
   addMapLine2() {
@@ -229,7 +234,7 @@ export class HomePage {
       { lat: 13.96585, lng: 100.587298 },
     ];
 
-    const mapLine = new google.maps.Polyline({
+    this.mapLine2 = new google.maps.Polyline({
       path: mapLineCoords,
       geodesic: true,
       strokeColor: '#624BF4',
@@ -237,7 +242,17 @@ export class HomePage {
       strokeWeight: 2,
     });
 
-    mapLine.setMap(this.map);
+    this.mapLine2.setMap(this.map);
+  }
+
+  removeMapLine1() {
+    this.mapLine1.setMap(null);
+    this.mapLine2.setMap(this.map);
+  }
+
+  removeMapLine2() {
+    this.mapLine1.setMap(this.map);
+    this.mapLine2.setMap(null);
   }
 
   cancleDirectionService() {
@@ -314,7 +329,7 @@ export class HomePage {
   addMarker(lat, lng, stopName) {
     let icon = {
       url: './assets/icon/Station_mark.png',
-      size: new google.maps.Size(20, 32),
+      // size: new google.maps.Size(20, 32),
     };
     let marker = new google.maps.Marker({
       map: this.map,
