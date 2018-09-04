@@ -4,6 +4,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { AngularFirestore } from 'angularfire2/firestore';
 
 import { map, filter } from 'rxjs/operators';
+import { Action } from 'rxjs/internal/scheduler/Action';
 
 declare var google;
 
@@ -13,6 +14,16 @@ interface BusStop {
   stopName?: string;
 }
 
+interface building {
+  id?: string;
+  building?: string;
+  coords?: {
+    lat?: number;
+    lng?: number;
+  };
+  name?: string;
+}
+
 interface Direction {
   building?: string;
   name?: string;
@@ -20,6 +31,12 @@ interface Direction {
     lat?: number;
     lng?: number;
   };
+}
+
+interface Trams {
+  lastLocation?: any[];
+  name?: string;
+  id?: string;
 }
 
 interface Train {
@@ -56,8 +73,6 @@ export class HomePage {
 
   busStops: BusStop[];
 
-  test: BusStop;
-
   direction: Direction[] = [];
   go: { start?: any; end?: any } = {};
 
@@ -74,13 +89,46 @@ export class HomePage {
     this.initDirection();
     await this.loadMap();
 
-    this.getBusStops().subscribe((stop: BusStop[]) => {
-      if (stop) {
-        stop.forEach(s => {
-          this.addMarker(+s.coords[0], +s.coords[1], s.stopName);
+    this.getBuildings().subscribe((building: building[]) => {
+      if (building) {
+        building.forEach(b => {
+          this.addMarkerBuilding(+b.coords.lat, +b.coords.lng, b.name);
         });
       }
     });
+
+    this.getBusStops().subscribe((stop: BusStop[]) => {
+      if (stop) {
+        stop.forEach(s => {
+          this.addMarkerStop(+s.coords[0], +s.coords[1], s.stopName);
+        });
+      }
+    });
+
+    this.getBuss().subscribe((tram: Trams[]) => {
+      if (tram) {
+        tram.forEach(t => {
+          this.addMarkerBusBlue(+t.lastLocation[0], +t.lastLocation[1]);
+          console.log(+t.lastLocation[0], +t.lastLocation[1]);
+        });
+      }
+    });
+  }
+
+  getBuss() {
+    return this.afs
+      .collection<Trams>('trams')
+      .snapshotChanges()
+      .pipe(
+        map(actions => {
+          return actions.map(a => {
+            return {
+              id: a.payload.doc.id,
+              ...(a.payload.doc.data() as Trams),
+            };
+          });
+        })
+      );
   }
 
   getBusStops() {
@@ -99,6 +147,22 @@ export class HomePage {
       );
   }
 
+  getBuildings() {
+    return this.afs
+      .collection<building>('buildings')
+      .snapshotChanges()
+      .pipe(
+        map(actions => {
+          return actions.map(a => {
+            return {
+              id: a.payload.doc.id,
+              ...(a.payload.doc.data() as building),
+            };
+          });
+        })
+      );
+  }
+
   showCurrentPostion() {
     let myMarker: any;
     let options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
@@ -107,12 +171,19 @@ export class HomePage {
         position.coords.latitude,
         position.coords.longitude
       );
+
       if (myMarker != null) {
         myMarker.setMap(null);
       }
+
+      let myIcon = {
+        url: './assets/icon/Location_ME.png',
+        // size: new google.maps.Size(20, 32),
+      };
       myMarker = new google.maps.Marker({
         map: this.map,
         position: myLatLng,
+        icon: myIcon,
       });
       console.log(myLatLng);
       let myContent = '<h4>You are here</h4>';
@@ -273,19 +344,14 @@ export class HomePage {
           position.coords.latitude,
           position.coords.longitude
         );
-
         this.directionDisplay.setMap(this.map);
-
         // const start = this.direction.find(d => d.building == this.go.start);
         const end = this.direction.find(d => d.building == this.go.end);
         const request = {
           origin: latLng,
-          // origin: start.coords,
-          // destination: testEnd,
           destination: end.coords,
           travelMode: 'DRIVING',
         };
-
         this.directionService.route(request, (result, status) => {
           if (status == 'OK') {
             this.directionDisplay.setDirections(result);
@@ -326,7 +392,7 @@ export class HomePage {
     });
   }
 
-  addMarker(lat, lng, stopName) {
+  addMarkerStop(lat, lng, stopName) {
     let icon = {
       url: './assets/icon/Station_mark.png',
       // size: new google.maps.Size(20, 32),
@@ -340,6 +406,33 @@ export class HomePage {
     let content = stopName;
 
     this.addInfoWindow(marker, content);
+  }
+
+  addMarkerBuilding(lat, lng, name) {
+    console.log(lat, lng);
+    let icon = {
+      url: './assets/icon/Location_building.png',
+    };
+    let marker = new google.maps.Marker({
+      map: this.map,
+      position: { lat, lng },
+      icon,
+    });
+
+    let content = name;
+
+    this.addInfoWindow(marker, content);
+  }
+
+  addMarkerBusBlue(lat, lng) {
+    let icon = {
+      url: './assets/icon/Bus_Blue.png',
+    };
+    let marker = new google.maps.Marker({
+      map: this.map,
+      position: { lat, lng },
+      icon,
+    });
   }
 
   addInfoWindow(marker, content) {
