@@ -18,6 +18,7 @@ import { LoginPage } from '../pages/login/login';
 import { Facebook } from '@ionic-native/facebook';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCK6rkI6rP2BynM9bvpvyoFqUJBa-ILKE8',
@@ -36,6 +37,7 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
     FormsModule,
+    AngularFireDatabaseModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [MyApp, HomePage, LoginPage],

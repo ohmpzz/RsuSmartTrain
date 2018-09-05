@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 import { map, filter } from 'rxjs/operators';
 import { Action } from 'rxjs/internal/scheduler/Action';
@@ -82,7 +83,8 @@ export class HomePage {
   constructor(
     private afs: AngularFirestore,
     public navCtrl: NavController,
-    public geolocation: Geolocation
+    public geolocation: Geolocation,
+    private afd: AngularFireDatabase
   ) {}
 
   async ionViewDidLoad() {
