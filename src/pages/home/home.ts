@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ActionSheet } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -68,6 +68,10 @@ export class HomePage {
   mapLine1: any;
   mapLine2: any;
 
+  busRed: any;
+  busBlue: any;
+  busBlue2: any;
+
   tab1 = false;
   tab2 = false;
   tab3 = false;
@@ -107,28 +111,34 @@ export class HomePage {
       }
     });
 
-    this.getBuss().subscribe((tram: Trams[]) => {
-      if (tram) {
-        tram.forEach(t => {
-          this.addMarkerBusBlue(+t.lastLocation[0], +t.lastLocation[1]);
-          console.log(+t.lastLocation[0], +t.lastLocation[1]);
-        });
+    this.getBusRealTime('tramOne').subscribe((tram: Trams) => {
+      if (this.busBlue != null) {
+        this.busBlue.setMap(null);
       }
+      this.addMarkerBusBlue(+tram.lastLocation[0], +tram.lastLocation[1]);
+    });
+    this.getBusRealTime('tramTwo').subscribe((tram: Trams) => {
+      if (this.busBlue2 != null) {
+        this.busBlue2.setMap(null);
+      }
+      this.addMarkerBusBlue2(+tram.lastLocation[0], +tram.lastLocation[1]);
+    });
+    this.getBusRealTime('tramThree').subscribe((tram: Trams) => {
+      if (this.busRed != null) {
+        this.busRed.setMap(null);
+      }
+      this.addMarkerBusRed(+tram.lastLocation[0], +tram.lastLocation[1]);
     });
   }
 
-  getBuss() {
-    return this.afs
-      .collection<Trams>('trams')
+  getBusRealTime(id) {
+    return this.afd
+      .object<Trams>(`trams/${id}`)
       .snapshotChanges()
       .pipe(
-        map(actions => {
-          return actions.map(a => {
-            return {
-              id: a.payload.doc.id,
-              ...(a.payload.doc.data() as Trams),
-            };
-          });
+        map(action => {
+          const id = action.key;
+          return { id, ...(action.payload.val() as Trams) };
         })
       );
   }
@@ -187,7 +197,7 @@ export class HomePage {
         position: myLatLng,
         icon: myIcon,
       });
-      console.log(myLatLng);
+      // console.log(myLatLng);
       let myContent = '<h4>You are here</h4>';
       this.addInfoWindow(myMarker, myContent);
     });
@@ -411,7 +421,7 @@ export class HomePage {
   }
 
   addMarkerBuilding(lat, lng, name) {
-    console.log(lat, lng);
+    // console.log(lat, lng);
     let icon = {
       url: './assets/icon/Location_building.png',
     };
@@ -430,7 +440,30 @@ export class HomePage {
     let icon = {
       url: './assets/icon/Bus_Blue.png',
     };
-    let marker = new google.maps.Marker({
+    this.busBlue = new google.maps.Marker({
+      map: this.map,
+      position: { lat, lng },
+      icon,
+    });
+  }
+
+  addMarkerBusBlue2(lat, lng) {
+    let icon = {
+      url: './assets/icon/Bus_Blue.png',
+    };
+    this.busBlue2 = new google.maps.Marker({
+      map: this.map,
+      position: { lat, lng },
+      icon,
+    });
+  }
+
+  addMarkerBusRed(lat, lng) {
+    let icon = {
+      url: './assets/icon/Bus_Red.png',
+    };
+
+    this.busRed = new google.maps.Marker({
       map: this.map,
       position: { lat, lng },
       icon,
