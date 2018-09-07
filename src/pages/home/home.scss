@@ -39,6 +39,14 @@ page-home {
   }
 
   .card {
-    background-color: #686472;
+    background-color: rgba(243, 243, 250, 0.925);
+  }
+
+  .footer_font {
+    color: color($colors, HomeTopColor);
+  }
+
+  .footer_toolbar {
+    background: color($colors, footer);
   }
 }

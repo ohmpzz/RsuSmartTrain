@@ -1,6 +1,6 @@
 <ion-header>
 
-  <ion-navbar color="HomeColor">
+  <ion-navbar color="HomeTopColor">
 
     <button ion-button menuToggle>
 
@@ -140,9 +140,9 @@
 
 </ion-content>
 
-<ion-footer>
+<ion-footer class="footer_toolbar">
 
-  <ion-toolbar color="HomeColor">
+  <ion-toolbar>
 
     <ion-grid>
 
@@ -152,11 +152,12 @@
 
           <a (click)="openTrainTab()">
 
-            <ion-icon name="train"></ion-icon>
+            <ion-icon color="HomeTopColor" name="train"></ion-icon>
 
           </a>
 
-          <br/> Train
+          <br/>
+          <span class="footer_font">Train</span>
 
         </ion-col>
 
@@ -164,11 +165,12 @@
 
           <a (click)="openLocationTab()">
 
-            <ion-icon name="home"></ion-icon>
+            <ion-icon color="HomeTopColor" name="home"></ion-icon>
 
           </a>
 
-          <br/> Direction
+          <br/>
+          <span class="footer_font">Direction</span>
 
         </ion-col>
 
@@ -176,11 +178,12 @@
 
           <a (click)="openWeatherTab()">
 
-            <ion-icon name="rainy"></ion-icon>
+            <ion-icon color="HomeTopColor" name="rainy"></ion-icon>
 
           </a>
 
-          <br/> Weather
+          <br/>
+          <span class="footer_font">Weather</span>
 
         </ion-col>
 
