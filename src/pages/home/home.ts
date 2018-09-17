@@ -60,7 +60,9 @@ export class HomePage {
   @ViewChild('map')
   mapElement: ElementRef;
   stop: boolean = true;
-  train: Train;
+  train1: Train;
+  train2: Train;
+  train3: Train;
 
   map: any;
   directionMap: any;
@@ -119,18 +121,24 @@ export class HomePage {
         this.busBlue.setMap(null);
       }
       this.addMarkerBusBlue(+tram.lastLocation[0], +tram.lastLocation[1]);
+      this.distanceMatrixService1(+tram.lastLocation[0], +tram.lastLocation[1]);
     });
     this.getBusRealTime('tramTwo').subscribe((tram: Trams) => {
       if (this.busBlue2 != null) {
         this.busBlue2.setMap(null);
       }
       this.addMarkerBusBlue2(+tram.lastLocation[0], +tram.lastLocation[1]);
+      this.distanceMatrixService2(+tram.lastLocation[0], +tram.lastLocation[1]);
     });
     this.getBusRealTime('tramThree').subscribe((tram: Trams) => {
       if (this.busRed != null) {
         this.busRed.setMap(null);
       }
       this.addMarkerBusRed(+tram.lastLocation[0], +tram.lastLocation[1]);
+      this.distanceMatrixServiceRed(
+        +tram.lastLocation[0],
+        +tram.lastLocation[1]
+      );
     });
   }
 
@@ -198,7 +206,7 @@ export class HomePage {
       myMarker = new google.maps.Marker({
         map: this.map,
         position: myLatLng,
-       // icon: myIcon,
+        // icon: myIcon,
       });
       // console.log(myLatLng);
       let myContent = '<h4>You are here</h4>';
@@ -375,10 +383,7 @@ export class HomePage {
       });
   }
 
-  distanceMatrixService(
-    // origin = { lat: 13.965402, lng: 100.5874 },
-    destination = { lat: 13.964113, lng: 100.586198 }
-  ) {
+  distanceMatrixService1(lat, lng) {
     let options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
     this.geolocation.watchPosition(options).subscribe(position => {
       let myLatLng = new google.maps.LatLng(
@@ -388,20 +393,72 @@ export class HomePage {
       let service = new google.maps.DistanceMatrixService();
       const opt = {
         origins: [myLatLng],
-        destinations: [destination],
+        destinations: [{ lat, lng }],
         travelMode: 'DRIVING',
         unitSystem: google.maps.UnitSystem.METRIC,
         avoidHighways: false,
         avoidTolls: false,
       };
-
       service.getDistanceMatrix(opt, (res, status) => {
         if (status !== 'OK') {
           alert('Error was: ' + status);
         } else {
           const { distance, duration } = res.rows[0].elements[0];
-          this.train = { distance, duration };
-          console.log(this.train);
+          this.train1 = { distance, duration };
+        }
+      });
+    });
+  }
+
+  distanceMatrixService2(lat, lng) {
+    let options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+    this.geolocation.watchPosition(options).subscribe(position => {
+      let myLatLng = new google.maps.LatLng(
+        position.coords.latitude,
+        position.coords.longitude
+      );
+      let service = new google.maps.DistanceMatrixService();
+      const opt = {
+        origins: [myLatLng],
+        destinations: [{ lat, lng }],
+        travelMode: 'DRIVING',
+        unitSystem: google.maps.UnitSystem.METRIC,
+        avoidHighways: false,
+        avoidTolls: false,
+      };
+      service.getDistanceMatrix(opt, (res, status) => {
+        if (status !== 'OK') {
+          alert('Error was: ' + status);
+        } else {
+          const { distance, duration } = res.rows[0].elements[0];
+          this.train2 = { distance, duration };
+        }
+      });
+    });
+  }
+
+  distanceMatrixServiceRed(lat, lng) {
+    let options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+    this.geolocation.watchPosition(options).subscribe(position => {
+      let myLatLng = new google.maps.LatLng(
+        position.coords.latitude,
+        position.coords.longitude
+      );
+      let service = new google.maps.DistanceMatrixService();
+      const opt = {
+        origins: [myLatLng],
+        destinations: [{ lat, lng }],
+        travelMode: 'DRIVING',
+        unitSystem: google.maps.UnitSystem.METRIC,
+        avoidHighways: false,
+        avoidTolls: false,
+      };
+      service.getDistanceMatrix(opt, (res, status) => {
+        if (status !== 'OK') {
+          alert('Error was: ' + status);
+        } else {
+          const { distance, duration } = res.rows[0].elements[0];
+          this.train3 = { distance, duration };
         }
       });
     });

@@ -12,7 +12,7 @@
 
     <ion-buttons end>
 
-      <button ion-button (click)="distanceMatrixService()">
+      <button ion-button (click)="[]">
 
         <ion-icon name="add"></ion-icon>Test()</button>
 
@@ -51,18 +51,19 @@
           <ion-col col-4>
             <ion-row>
               <div><img src="./assets/imgs/Mark_Blue.png" style="height: 32px;width: 32px;" /></div>
-              {{ train | json }}
+              {{ train1 | json }}
             </ion-row>
           </ion-col>
           <ion-col col-4>
             <ion-row>
               <div><img src="./assets/imgs/Mark_Blue.png" style="height: 32px;width: 32px;" /></div>
-              WTF
+              {{ train2 | json }}
             </ion-row>
           </ion-col>
           <ion-col col-4>
             <ion-row>
-              <div> <img src="./assets/imgs/Mark_Red.png" style="height: 32px;width: 32px;" /></div>WTF
+              <div> <img src="./assets/imgs/Mark_Red.png" style="height: 32px;width: 32px;" /></div>
+              {{ train3 | json }}
             </ion-row>
           </ion-col>
         </ion-grid>
