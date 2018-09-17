@@ -76,6 +76,9 @@ export class HomePage {
   tab2 = false;
   tab3 = false;
 
+  duration: any = '';
+  distance: any = '';
+
   busStops: BusStop[];
 
   direction: Direction[] = [];
@@ -195,7 +198,7 @@ export class HomePage {
       myMarker = new google.maps.Marker({
         map: this.map,
         position: myLatLng,
-        icon: myIcon,
+       // icon: myIcon,
       });
       // console.log(myLatLng);
       let myContent = '<h4>You are here</h4>';

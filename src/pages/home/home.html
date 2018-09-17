@@ -47,16 +47,25 @@
           Train Status
 
         </ion-card-title>
-
-        <hr>
-        <div> <img src="./assets/imgs/Mark_Blue.png" style="height: 32px;width: 32px;" /> </div>
-        <div>
-          {{ train | json }}
-        </div>
-        <hr>
-        <img src="./assets/imgs/Mark_Blue.png" style="height: 32px;width: 32px;" />
-        <hr>
-        <img src="./assets/imgs/Mark_Red.png" style="height: 32px;width: 32px;" />
+        <ion-grid>
+          <ion-col col-4>
+            <ion-row>
+              <div><img src="./assets/imgs/Mark_Blue.png" style="height: 32px;width: 32px;" /></div>
+              {{ train | json }}
+            </ion-row>
+          </ion-col>
+          <ion-col col-4>
+            <ion-row>
+              <div><img src="./assets/imgs/Mark_Blue.png" style="height: 32px;width: 32px;" /></div>
+              WTF
+            </ion-row>
+          </ion-col>
+          <ion-col col-4>
+            <ion-row>
+              <div> <img src="./assets/imgs/Mark_Red.png" style="height: 32px;width: 32px;" /></div>WTF
+            </ion-row>
+          </ion-col>
+        </ion-grid>
 
       </ion-card-content>
 
