@@ -14,7 +14,8 @@
 
       <button ion-button (click)="[]">
 
-        <ion-icon name="add"></ion-icon>Test()</button>
+        <ion-icon name="add"></ion-icon>Test()
+      </button>
 
     </ion-buttons>
 
@@ -27,10 +28,16 @@
 <ion-content>
 
   <ion-fab top right edge>
-    <button ion-fab mini><ion-icon name="apps"></ion-icon></button>
+    <button ion-fab mini>
+      <ion-icon name="apps"></ion-icon>
+    </button>
     <ion-fab-list>
-      <button (click)="removeMapLine1()" ion-fab><ion-icon> R1 </ion-icon></button>
-      <button (click)="removeMapLine2()" ion-fab><ion-icon> R2 </ion-icon></button>
+      <button (click)="removeMapLine1()" ion-fab>
+        <ion-icon> R1 </ion-icon>
+      </button>
+      <button (click)="removeMapLine2()" ion-fab>
+        <ion-icon> R2 </ion-icon>
+      </button>
     </ion-fab-list>
   </ion-fab>
 
@@ -47,7 +54,53 @@
           Train Status
 
         </ion-card-title>
-        <ion-grid>
+
+        <ion-item>
+          <div item-start>
+            <img src="./assets/imgs/Mark_Blue.png" style="height: 32px;width: 32px;" />
+          </div>
+          <div item-start>
+            รถคันที่ 1
+          </div>
+          <div item-center style="text-align:center">
+            <p>{{train1?.distance.text}}</p>
+          </div>
+          <div item-end>
+            <p>{{train1?.duration.text}}</p>
+          </div>
+        </ion-item>
+
+        <ion-item>
+          <div item-start>
+            <img src="./assets/imgs/Mark_Blue.png" style="height: 32px;width: 32px;" />
+          </div>
+          <div item-start>
+            รถคันที่ 2
+          </div>
+          <div item-center style="text-align:center">
+            <p>{{train2?.distance.text}}</p>
+          </div>
+          <div item-end>
+            <p>{{train2?.duration.text}}</p>
+          </div>
+        </ion-item>
+
+        <ion-item>
+          <div item-start>
+            <img src="./assets/imgs/Mark_Red.png" style="height: 32px;width: 32px;" />
+          </div>
+          <div item-start>
+            รถคันที่ 3
+          </div>
+          <div item-center style="text-align:center">
+            <p>{{train3?.distance.text}}</p>
+          </div>
+          <div item-end>
+            <p>{{train3?.duration.text}}</p>
+          </div>
+        </ion-item>
+
+        <!-- <ion-grid>
           <ion-col col-4>
             <ion-row>
               <div><img src="./assets/imgs/Mark_Blue.png" style="height: 32px;width: 32px;" /></div>
@@ -66,7 +119,7 @@
               {{ train3 | json }}
             </ion-row>
           </ion-col>
-        </ion-grid>
+        </ion-grid> -->
 
       </ion-card-content>
 
@@ -171,7 +224,7 @@
 
           </a>
 
-          <br/>
+          <br />
           <span class="footer_font">Train</span>
 
         </ion-col>
@@ -184,7 +237,7 @@
 
           </a>
 
-          <br/>
+          <br />
           <span class="footer_font">Direction</span>
 
         </ion-col>
@@ -197,7 +250,7 @@
 
           </a>
 
-          <br/>
+          <br />
           <span class="footer_font">Weather</span>
 
         </ion-col>
